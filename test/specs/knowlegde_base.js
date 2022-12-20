@@ -3,7 +3,7 @@ const KnowladgeBasePage = require('../pageobjects/knowladgeBase.page')
 
 describe('In Knowledge base', () => {
 
-    beforeEach(async () => {
+    before(async () => {
         await LoginPage.open();
         await LoginPage.login('tpvidnoe2@gmail.com', '123456789');
         await expect(browser).toHaveUrl('https://k-ampus.dev/collection-topics')
@@ -27,8 +27,9 @@ describe('In Knowledge base', () => {
     })
     */
 
-    afterEach(async () => {
+    after(async () => {
         await KnowladgeBasePage.logOut();
     })
+
     
 })
