@@ -8,18 +8,13 @@ const Page = require('./page');
 class KnowladgeBasePage extends Page {
     /**
      * define selectors using getter methods
-     */
+    */
 
+    // === Тип материала ===
 
     get materialTypeBtn () {
-        return $('[class="Select--77lnVdLY white--1mIS2bv0"]');
+        return $('/html/body/div/div/div[1]/section/main/div[2]/div/div/div/div[1]/div[1]/div[1]/div[2]/div/span/div/div');
     }
-
-    get developmentAreaBtn () {
-        return $('/html/body/div[1]/div/div[1]/section/main/div[2]/div/div/div/div[1]/div[1]/div[2]/div[2]/div/span/div/div');
-    }
-
- 
 
     get allMaterialsTopic () {
         return $('[role="option"]').$('[title="Все"]');
@@ -37,20 +32,53 @@ class KnowladgeBasePage extends Page {
         return $('[title="Практика"]');
     }
 
+    // === Область развития ===
+
+    get developmentAreaBtn () {
+        return $('/html/body/div[1]/div/div[1]/section/main/div[2]/div/div/div/div[1]/div[1]/div[2]/div[2]/div/span/div/div');
+    }
+
     get hardskillsBtn () {
         return $('[title="HardSkills"]');
     }
 
+    get softskillsBtn () {
+        return $('[title="SoftSkills"]');
+    }
+
+    // === Уровень ===
+
+    get advancedBtn () {
+        return $('[title="Продвинутый"]');
+    }
+
+    get advancedBtn () {
+        return $('[title="Продвинутый"]');
+    }
+
+    get basicBtn () {
+        return $('[title="Базовый"]');
+    }
+
+    get middleBtn () {
+        return $('[title="Средний"]');
+    }
+
+    // === Топики ===
+
     get topicCardBtn () {
-        return $('[class="header--JWBa4lzJ"]');
+        return $('/html/body/div[1]/div/div[1]/section/main/div[4]/div[2]/div/div/a');
     }
 
     get topicCharacteristicsBtn () {
-        return $('[class="Details-line--1ZBFn0xY Details-line-point--3NW2m8d6"]');
+        return $('/html/body/div[1]/div/div[1]/section/main/div/div[2]/div[3]/div/div[4]/div/div');
     }
 
-    
+    get closeTopicBtn () {
+        return $('/html/body/div[1]/div/div[1]/section/main/div/div[1]/div[2]/button[1]');
+    }
 
+    // === Меню ===
 
     get userIconBtn () {
         return $('[data-qa="userBlock"]');
@@ -62,9 +90,10 @@ class KnowladgeBasePage extends Page {
     
 
     /**
-     * a method to encapsule automation code to interact with the page
+     * methods to encapsule automation code to interact with the page
      * e.g. to login using username and password
-     */
+    */
+
     async materialTypeChoice(parameter) {
         await this.materialTypeBtn.click();
 
@@ -79,22 +108,39 @@ class KnowladgeBasePage extends Page {
                 break;
         }
     }
-
-
+   
     async developmentAreaChoice(parameter) {
-        await this.developmentAreaBtn.click();
+            await this.developmentAreaBtn.click();
 
         switch (parameter) {
             case 'hardSkills': await this.hardskillsBtn.click();
+                break;
+            case 'softSkills': await this.softskillsBtn.click();
                 break;
 
         }
     }
 
+    async levelChoice(parameter) {
+        await this.levelBtn.click();
+        switch (parameter) {
+            case 'advanced': await this.advancedBtn.click();
+                break;
+            case 'basic': await this.basicBtn.click();
+                break;
+            case 'middle': await this.middleBtn.click();
+                break;
+
+        }
+    }
 
     async goToTopicCaracteristics() {
         await this.topicCardBtn.click();
         await this.topicCharacteristicsBtn.click();
+    }
+
+    async closeTopic() {
+        await this.closeTopicBtn.click();
     }
 
     async logOut() {
@@ -105,7 +151,8 @@ class KnowladgeBasePage extends Page {
 
     /**
      * overwrite specific options to adapt it to page object
-     */
+    */
+
     open () {
         return super.open('collection-topics');
     }

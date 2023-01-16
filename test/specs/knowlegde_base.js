@@ -2,7 +2,7 @@ const LoginPage = require('../pageobjects/login.page')
 const KnowladgeBasePage = require('../pageobjects/knowladgeBase.page')
 
 
-describe('In Knowledge base', () => {
+describe('On Knowledge base page', () => {
 
     before(async () => {
         await LoginPage.open();
@@ -11,44 +11,51 @@ describe('In Knowledge base', () => {
 
     })
 
-    /*
-    * === ТИП МАТЕРИАЛА ===
-    */
+    describe('in material type filter', () => {
 
-    it('trainingCourse could be sorted', async () => {
-        await KnowladgeBasePage.materialTypeChoice('trainingCourse');
-        await expect(await $('[class="TypeBadge--2N9nuk7a"]')).toHaveText(['Электронный курс', 'Внешний курс', 'Корпорат. курс']);
+        it('trainingCourse could be sorted', async () => {
+            await KnowladgeBasePage.materialTypeChoice('trainingCourse');
+            await expect(await $('/html/body/div[1]/div/div[1]/section/main/div[4]/div[2]/div/div/div/div[1]/div[1]/div[2]/div/div')).toHaveText(['Электронный курс', 'Внешний курс', 'Корпорат. курс']);
+        })
+     
+        it('library could be sorted', async () => {
+            await KnowladgeBasePage.materialTypeChoice('library');
+            await expect(await $('/html/body/div[1]/div/div[1]/section/main/div[4]/div[2]/div/div/div/div[1]/div[1]/div[2]/div/div')).toHaveText(['Приложение', 'Книга']);
+        })
+     
+        // === СКИП ===
+        it.skip('practice could be sorted', async () => {
+            await KnowladgeBasePage.materialTypeChoice('practice');
+            await expect(await $('/html/body/div[1]/div/div[1]/section/main/div[4]/div[2]/div/div/div/div[1]/div[1]/div[2]/div/div')).toHaveText('Задачи руководителя');
+        })
+     
+        // === СКИП === (Надо правильно обозвать селектор)
+        it.skip('all materials could be sorted', async () => {
+            await KnowladgeBasePage.materialTypeChoice('all');
+            await expect(await $('/html/body/div[1]/div/div[1]/section/main/div[4]/div[2]/div/div/div/div[1]/div[1]/div[2]/div/div')).toHaveText(['Электронный курс', 'Внешний курс', 'Корпорат. курс', 'Приложение', 'Книга', 'Задачи руководителя', 'Событие']);
+        })
+
     })
 
-    it('library could be sorted', async () => {
-        await KnowladgeBasePage.materialTypeChoice('library');
-        await expect(await $('[class="TypeBadge--2N9nuk7a"]')).toHaveText(['Приложение', 'Книга']);
+    describe('in development area filter', () => {
+
+        it('HardSkills could be sorted', async () => {
+            await KnowladgeBasePage.developmentAreaChoice('hardSkills');
+            await KnowladgeBasePage.goToTopicCaracteristics();
+            await expect(await $('/html/body/div/div/div[1]/section/main/div/div[2]/div[3]/div/div[4]/div[1]/div[2]')).toHaveText(['HardSkills']);
+        })
+
+        it('SoftSkills could be sorted', async () => {
+            await KnowladgeBasePage.developmentAreaChoice('softSkills');
+            await KnowladgeBasePage.goToTopicCaracteristics();
+            await expect(await $('/html/body/div/div/div[1]/section/main/div/div[2]/div[3]/div/div[4]/div[1]/div[2]')).toHaveText(['SoftSkills']);
+        })
+
+        afterEach(async () => {
+            await KnowladgeBasePage.closeTopic();
+        })
+
     })
-
-    // === СКИП ===
-
-    it.skip('practice could be sorted', async () => {
-        await KnowladgeBasePage.materialTypeChoice('practice');
-        await expect(await $('[class="TypeBadge--2N9nuk7a"]')).toHaveText('Задачи руководителя');
-    })
-
-    // === СКИП === (Надо правильно обозвать селектор)
-
-    it.skip('all materials could be sorted', async () => {
-        await KnowladgeBasePage.materialTypeChoice('all');
-        await expect(await $('[class="TypeBadge--2N9nuk7a"]')).toHaveText(['Электронный курс', 'Внешний курс', 'Корпорат. курс', 'Приложение', 'Книга', 'Задачи руководителя', 'Событие']);
-    })
-
-    /*
-    * === ОБЛАСТЬ РАЗВИТИЯ ===
-    */
-
-    it('HardSkills could be sorted', async () => {
-        await KnowladgeBasePage.developmentAreaChoice('hardSkills');
-        await KnowladgeBasePage.goToTopicCaracteristics();
-        await expect(await $('[class="Category-label--3_zxmi1Z"]')).toHaveText(['HardSkills']);
-    })
-
 
     after(async () => {
         await KnowladgeBasePage.logOut();
